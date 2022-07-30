@@ -17,7 +17,6 @@ def chatops_entrypoint():
         return "Request is invalid or expired", 403
     
     payload = json.loads(request.form["payload"])
-    # print(json.dumps(payload,sort_keys=True,indent=2))
 
     if payload["type"] == SHORTCUT_OPEN_REQUEST:
         return handle_shortcut(payload)
@@ -25,10 +24,5 @@ def chatops_entrypoint():
     elif payload["type"] == SUBMIT_MODAL_REQUEST:
         return handle_modal_submit(payload)
 
-
-
-
-    return 'Web App with Python Flask!'
-
-
-app.run(host='0.0.0.0', port=8080)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080)

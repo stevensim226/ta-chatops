@@ -1,0 +1,55 @@
+{
+	"type": "modal",
+	"title": {
+		"type": "plain_text",
+		"text": "IP Whitelist Request"
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit"
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel"
+	},
+	"callback_id": "whitelist_ip",
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": "Whitelist a new partner's IP addresses to our services!"
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "partner_name",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "partner_name"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Partner Company's Name",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "partner_cidrs",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "partner_cidrs",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "127.0.0.1\n192.168.0.1/32\netc."
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Partner IP Addresses (separated in newline)"
+			}
+		}
+	]
+}

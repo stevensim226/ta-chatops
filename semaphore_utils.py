@@ -8,6 +8,7 @@ SEMAPHORE_LOGS_URL = f"{BASE_SEMAPHORE_API_URL}/project/1/history?t="
 SEMAPHORE_HEADER = {"Authorization" : "Bearer " + os.environ.get("SEMAPHORE_TOKEN")}
 
 WHITELIST_IP_TEMPLATE_NAME = "Whitelist Partner IP"
+DEPLOY_APPSERVER_TEMPLATE_NAME = "Deploy Sample Appserver"
 
 def get_template_id_by_alias(alias):
     url = f"{BASE_SEMAPHORE_API_URL}/api/project/1/templates"

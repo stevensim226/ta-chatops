@@ -2,7 +2,11 @@ import requests
 import json
 import os
 
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+
 POST_MSG_URL = "https://slack.com/api/chat.postMessage"
+OPEN_MODAL_URL = "https://slack.com/api/views.open"
+
 SLACK_TOKEN_HEADER = {
         "Authorization" : "Bearer " + os.environ.get("BOT_TOKEN"),
         "Content-Type": "application/json"
@@ -20,3 +24,9 @@ def build_text_block(text):
             "text": text
         }
     }
+
+def send_modal(trigger_id, modal):
+    requests.post(OPEN_MODAL_URL, json={
+        "trigger_id": trigger_id,
+        "view": modal
+	}, headers={"Authorization": f"Bearer {BOT_TOKEN}"})

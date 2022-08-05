@@ -24,5 +24,7 @@ def chatops_entrypoint():
     elif payload["type"] == SUBMIT_MODAL_REQUEST:
         return handle_modal_submit(payload)
 
+    return "OK", 200
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)

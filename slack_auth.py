@@ -4,7 +4,7 @@ import hashlib
 import hmac
 
 SIGNING_SECRET = os.environ.get("SIGNING_SECRET")
-AUTHORIZED_WHITELIST_USERS = ["steven.sim"]
+AUTHORIZED_WHITELIST_USERS = ["stevensim226"]
   
 def is_authenticated_slack_request(timestamp, incoming_signature, data):
 	if (int(time.time()) - int(timestamp)) > 60:

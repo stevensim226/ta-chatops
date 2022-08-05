@@ -1,0 +1,73 @@
+{
+	"type": "modal",
+	"title": {
+		"type": "plain_text",
+		"text": "Deploy to Shared Server",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit",
+		"emoji": true
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"callback_id": "deploy_dev",
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": "Deploy your branch's changes to a shared dev deployment server :floppy_disk:",
+				"emoji": true
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Deployment Server*"
+			},
+			"block_id": "server_selection",
+			"accessory": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select a server"
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "DEV-1"
+						},
+						"value": "DEV-1"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "DEV-2"
+						},
+						"value": "DEV-2"
+					}
+				],
+				"action_id": "server_selection"
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "branch_name",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "branch_name"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Branch name"
+			}
+		}
+	]
+}

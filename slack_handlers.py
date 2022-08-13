@@ -1,14 +1,21 @@
-from slack_auth import is_authorized_to_whitelist
+from slack_auth import is_authorized_to_whitelist, is_authorized_to_deploy_ssh_keys
 from slack_utils import send_simple_message, send_modal
-from semaphore_utils import start_task_from_alias, WHITELIST_IP_TEMPLATE_NAME, SEMAPHORE_LOGS_URL, DEPLOY_APPSERVER_TEMPLATE_NAME
+from semaphore_utils import (
+	start_task_from_alias, WHITELIST_IP_TEMPLATE_NAME, 
+	SEMAPHORE_LOGS_URL, DEPLOY_APPSERVER_TEMPLATE_NAME,
+	DEPLOY_SSH_KEY_TEMPLATE_NAME
+)
 import json
 
 WHITELIST_IP_MODAL_CALLBACK_ID = "whitelist_ip"
 DEPLOYMENT_MODAL_CALLBACK_ID = "deploy_dev"
+DEPLOY_SSH_KEY_MODAL_CALLBACK_ID = "deploy_ssh_key"
 
 WHITELIST_IP_UNAUTHORIZED_MODAL = json.loads(open("modals/whitelist_unauthorized_modal.json").read())
 WHITELIST_IP_MODAL = json.loads(open("modals/whitelist_modal.json").read())
 DEPLOY_DEV_MODAL = json.loads(open("modals/deploydev_modal.json").read())
+DEPLOY_SSH_KEY_MODAL = json.loads(open("modals/deploysshkey_modal.json").read())
+DEPLOY_SSH_KEY_UNAUTHORIZED_MODAL = json.loads(open("modals/deploysshkey_unauthorized_modal.json").read())
 
 CHANNEL_NAME = "chatops-notifications"
 
@@ -23,11 +30,19 @@ def handle_shortcut(payload):
 			to_be_sent_modal = WHITELIST_IP_UNAUTHORIZED_MODAL
 
 		send_modal(payload["trigger_id"], to_be_sent_modal)
-		return "OK"
 
 	elif shortcut_callback == DEPLOYMENT_MODAL_CALLBACK_ID:
 		send_modal(payload["trigger_id"], DEPLOY_DEV_MODAL)
-		return "OK"
+
+	elif shortcut_callback == DEPLOY_SSH_KEY_MODAL_CALLBACK_ID:
+		if is_authorized_to_deploy_ssh_keys(payload["user"]["username"]):
+			to_be_sent_modal = DEPLOY_SSH_KEY_MODAL
+		else:
+			to_be_sent_modal = DEPLOY_SSH_KEY_UNAUTHORIZED_MODAL
+
+		send_modal(payload["trigger_id"], to_be_sent_modal)
+	
+	return "OK"
 
 
 def handle_modal_submit(payload):
@@ -56,5 +71,16 @@ def handle_modal_submit(payload):
 		})
 
 		send_simple_message(CHANNEL_NAME, f"Deployment for branch `{branch_name}` requested by @{requestor_username} to *{server_selection}* (<{SEMAPHORE_LOGS_URL}{task_id}|Deployment Logs>)")
+
+	elif callback_id == DEPLOY_SSH_KEY_MODAL_CALLBACK_ID:
+		public_key = payload["view"]["state"]["values"]["public_key_input"]["public_key_input"]["value"]
+		username = payload["view"]["state"]["values"]["username_input"]["username_input"]["value"]
+		
+		task_id = start_task_from_alias(DEPLOY_SSH_KEY_TEMPLATE_NAME, env={
+			"deployer": requestor_username,
+			"username": username,
+			"public_key": public_key
+		})
+		send_simple_message(CHANNEL_NAME, f"New SSH key for user `{username}` added by @{requestor_username} is being deployed (<{SEMAPHORE_LOGS_URL}{task_id}|Deployment Logs>)")
 
 	return CLOSE_MODAL_RESPONSE

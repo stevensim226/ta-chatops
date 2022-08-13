@@ -5,6 +5,7 @@ import hmac
 
 SIGNING_SECRET = os.environ.get("SIGNING_SECRET")
 AUTHORIZED_WHITELIST_USERS = ["stevensim226"]
+AUTHORIZED_SSH_KEY_DEPLOY_USERS = ["stevensim226"]
   
 def is_authenticated_slack_request(timestamp, incoming_signature, data):
 	if (int(time.time()) - int(timestamp)) > 60:
@@ -20,3 +21,6 @@ def is_authenticated_slack_request(timestamp, incoming_signature, data):
 
 def is_authorized_to_whitelist(username):
 	return username in AUTHORIZED_WHITELIST_USERS
+
+def is_authorized_to_deploy_ssh_keys(username):
+	return username in AUTHORIZED_SSH_KEY_DEPLOY_USERS

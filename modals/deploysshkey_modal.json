@@ -1,0 +1,54 @@
+{
+	"type": "modal",
+	"title": {
+		"type": "plain_text",
+		"text": "SSH Key Deployment"
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit"
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel"
+	},
+	"callback_id": "deploy_ssh_key",
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": "Add a public key to our jump host!"
+			}
+		},
+		{
+			"block_id": "username_input",
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "username_input"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Username"
+			}
+		},
+		{
+			"block_id": "public_key_input",
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "public_key_input",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', etc."
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Your SSH public key"
+			}
+		}
+	]
+}

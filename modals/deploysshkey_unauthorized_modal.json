@@ -1,0 +1,20 @@
+{
+	"type": "modal",
+	"title": {
+		"type": "plain_text",
+		"text": "Not Authorized"
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Close"
+	},
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*You are not allowed to open this modal*\n\nOnly allowed SRE / Infra team members may open this modal"
+			}
+		}
+	]
+}
